@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaik Rahamath Pasha | Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --bg-secondary: #111827;
+            --fg: #f0f4f8;
+            --muted: #64748b;
+            --accent: #06d6a0;
+            --accent-secondary: #00b4d8;
+            --card: rgba(17, 24, 39, 0.6);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(6, 214, 160, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        /* Animated Background */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(6, 214, 160, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 214, 160, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6, 214, 160, 0.12) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 180, 216, 0.1) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* Particles Canvas */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            color: var(--muted);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--fg);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero SVG Animation */
+        .hero-svg {
+            animation: rotate-slow 60s linear infinite;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse-ring {
+            animation: pulse-ring 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        /* Skill Bar Animation */
+        .skill-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% - 8px);
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: var(--bg);
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(6, 214, 160, 0.3);
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--fg);
+            font-weight: 500;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: rgba(6, 214, 160, 0.1);
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Project Card Hover */
+        .project-card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px var(--glow);
+        }
+
+        /* Tag Styles */
+        .tag {
+            background: rgba(6, 214, 160, 0.1);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(6, 214, 160, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(6, 214, 160, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Contact Form */
+        .form-input {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: var(--fg);
+            font-family: inherit;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .form-input::placeholder {
+            color: var(--muted);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 14, 23, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Typing animation */
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid var(--accent);
+            animation: typing 3s steps(30) forwards, blink 0.8s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* Floating elements */
+        .float-element {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Glow text */
+        .glow-text {
+            text-shadow: 0 0 40px var(--glow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="bg-gradient-orb orb-1"></div>
+    <div class="bg-gradient-orb orb-2"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" class="text-2xl font-semibold text-white hover:text-[var(--accent)] transition-colors">About</a>
+        <a href="#skills" class="text-2xl font-semibold text-white hover:text-[var(--accent)] transition-colors">Skills</a>
+        <a href="#experience" class="text-2xl font-semibold text-white hover:text-[var(--accent)] transition-colors">Experience</a>
+        <a href="#projects" class="text-2xl font-semibold text-white hover:text-[var(--accent)] transition-colors">Projects</a>
+        <a href="#contact" class="text-2xl font-semibold text-white hover:text-[var(--accent)] transition-colors">Contact</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-tight">
+                <span class="text-[var(--accent)]">SR</span>P
+            </a>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="nav-link text-sm font-medium">About</a>
+                <a href="#skills" class="nav-link text-sm font-medium">Skills</a>
+                <a href="#experience" class="nav-link text-sm font-medium">Experience</a>
+                <a href="#projects" class="nav-link text-sm font-medium">Projects</a>
+                <a href="#contact" class="nav-link text-sm font-medium">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden flex flex-col gap-1.5" id="menuBtn" aria-label="Toggle menu">
+                <span class="w-6 h-0.5 bg-white transition-all duration-300" id="menuLine1"></span>
+                <span class="w-6 h-0.5 bg-white transition-all duration-300" id="menuLine2"></span>
+                <span class="w-6 h-0.5 bg-white transition-all duration-300" id="menuLine3"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center relative z-10 px-6 pt-20">
+        <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="reveal">
+                    <span class="mono text-sm text-[var(--accent)] tracking-wider">SOFTWARE ENGINEER</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight reveal reveal-delay-1">
+                    Shaik Rahamath
+                    <span class="block text-[var(--accent)] glow-text">Pasha</span>
+                </h1>
+                <p class="text-lg text-[var(--muted)] max-w-lg reveal reveal-delay-2">
+                    Building real-time industrial IoT solutions, analytical dashboards, and scalable backend systems with Django and modern technologies.
+                </p>
+                <div class="flex flex-wrap gap-4 reveal reveal-delay-3">
+                    <a href="#contact" class="btn-primary">Get In Touch</a>
+                    <a href="#projects" class="btn-outline">View Projects</a>
+                </div>
+                <div class="flex items-center gap-6 pt-4 reveal reveal-delay-4">
+                    <a href="mailto:shaikrahamath009@gmail.com" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors" aria-label="Email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://linkedin.com/in/rahamathpasha786" target="_blank" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors" aria-label="LinkedIn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect width="4" height="12" x="2" y="9"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                    </a>
+                    <a href="tel:7815977596" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors" aria-label="Phone">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero SVG Illustration -->
+            <div class="hidden lg:flex justify-center items-center relative">
+                <svg class="hero-svg w-[400px] h-[400px]" viewBox="0 0 400 400" fill="none">
+                    <!-- Outer Ring -->
+                    <circle cx="200" cy="200" r="180" stroke="url(#gradient1)" stroke-width="1" opacity="0.3" class="pulse-ring"/>
+                    <circle cx="200" cy="200" r="150" stroke="url(#gradient1)" stroke-width="1" opacity="0.5" class="pulse-ring" style="animation-delay: 0.5s"/>
+                    <circle cx="200" cy="200" r="120" stroke="url(#gradient1)" stroke-width="2" opacity="0.7"/>
+                    
+                    <!-- Tech Circuit Pattern -->
+                    <path d="M200 80 L200 120 M200 280 L200 320" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+                    <path d="M80 200 L120 200 M280 200 L320 200" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+                    
+                    <!-- Corner Elements -->
+                    <rect x="100" y="100" width="30" height="30" stroke="var(--accent)" stroke-width="1" fill="none" transform="rotate(45 115 115)" opacity="0.6"/>
+                    <rect x="270" y="100" width="30" height="30" stroke="var(--accent)" stroke-width="1" fill="none" transform="rotate(45 285 115)" opacity="0.6"/>
+                    <rect x="100" y="270" width="30" height="30" stroke="var(--accent)" stroke-width="1" fill="none" transform="rotate(45 115 285)" opacity="0.6"/>
+                    <rect x="270" y="270" width="30" height="30" stroke="var(--accent)" stroke-width="1" fill="none" transform="rotate(45 285 285)" opacity="0.6"/>
+                    
+                    <!-- Central Icon - Code/IoT Symbol -->
+                    <circle cx="200" cy="200" r="60" fill="url(#gradient2)" opacity="0.2"/>
+                    <circle cx="200" cy="200" r="40" stroke="var(--accent)" stroke-width="2" fill="none"/>
+                    
+                    <!-- IoT Nodes -->
+                    <circle cx="200" cy="160" r="6" fill="var(--accent)"/>
+                    <circle cx="235" cy="220" r="6" fill="var(--accent-secondary)"/>
+                    <circle cx="165" cy="220" r="6" fill="var(--accent-secondary)"/>
+                    
+                    <!-- Connecting Lines -->
+                    <line x1="200" y1="166" x2="229" y2="214" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+                    <line x1="200" y1="166" x2="171" y2="214" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+                    <line x1="229" y1="220" x2="171" y2="220" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+                    
+                    <!-- Data Flow Dots -->
+                    <circle cx="200" cy="200" r="4" fill="var(--accent)">
+                        <animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    
+                    <!-- Orbiting Elements -->
+                    <g>
+                        <circle cx="200" cy="80" r="4" fill="var(--accent-secondary)">
+                            <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
+                        </circle>
+                    </g>
+                    <g>
+                        <circle cx="320" cy="200" r="3" fill="var(--accent)">
+                            <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="-360 200 200" dur="25s" repeatCount="indefinite"/>
+                        </circle>
+                    </g>
+                    
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#06d6a0"/>
+                            <stop offset="100%" stop-color="#00b4d8"/>
+                        </linearGradient>
+                        <radialGradient id="gradient2" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#06d6a0" stop-opacity="0.5"/>
+                            <stop offset="100%" stop-color="#00b4d8" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span class="text-xs text-[var(--muted)] tracking-wider">SCROLL</span>
+            <div class="w-6 h-10 border border-[var(--glass-border)] rounded-full flex justify-center pt-2">
+                <div class="w-1 h-2 bg-[var(--accent)] rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div class="reveal">
+                        <span class="mono text-sm text-[var(--accent)] tracking-wider">01 // ABOUT</span>
+                        <h2 class="text-4xl md:text-5xl font-bold mt-4">Passionate about Industrial Innovation</h2>
+                    </div>
+                    <div class="space-y-6 text-[var(--muted)] reveal reveal-delay-1">
+                        <p>
+                            I'm a Software Engineer specializing in Industrial IoT, real-time monitoring systems, and backend development. With expertise in Django, PostgreSQL, MQTT, and InfluxDB, I build scalable solutions for industrial automation.
+                        </p>
+                        <p>
+                            My work involves developing REST APIs, analytical dashboards, and real-time monitoring solutions that help industries optimize their operations and improve efficiency.
+                        </p>
+                        <p>
+                            Currently working at <span class="text-[var(--accent)]">Sustaintech Experts</span>, I contribute to cutting-edge industrial projects including solar monitoring systems and P&ID visualization platforms.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6 reveal reveal-delay-2">
+                        <div class="glass-card p-6">
+                            <span class="text-3xl font-bold text-[var(--accent)]">50+</span>
+                            <p class="text-sm text-[var(--muted)] mt-1">Sites Monitored</p>
+                        </div>
+                        <div class="glass-card p-6">
+                            <span class="text-3xl font-bold text-[var(--accent)]">5+</span>
+                            <p class="text-sm text-[var(--muted)] mt-1">Major Projects</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About SVG -->
+                <div class="reveal reveal-delay-3">
+                    <svg class="w-full max-w-md mx-auto" viewBox="0 0 400 300" fill="none">
+                        <!-- Dashboard Mockup -->
+                        <rect x="50" y="50" width="300" height="200" rx="10" fill="var(--glass)" stroke="var(--glass-border)" stroke-width="1"/>
+                        
+                        <!-- Header -->
+                        <rect x="50" y="50" width="300" height="30" rx="10" fill="rgba(6, 214, 160, 0.1)"/>
+                        <circle cx="70" cy="65" r="5" fill="#ff6b6b"/>
+                        <circle cx="85" cy="65" r="5" fill="#ffd93d"/>
+                        <circle cx="100" cy="65" r="5" fill="#06d6a0"/>
+                        
+                        <!-- Sidebar -->
+                        <rect x="60" y="90" width="60" height="150" rx="5" fill="rgba(255,255,255,0.03)"/>
+                        <rect x="70" y="100" width="40" height="8" rx="2" fill="var(--accent)" opacity="0.5"/>
+                        <rect x="70" y="115" width="30" height="6" rx="2" fill="var(--muted)" opacity="0.3"/>
+                        <rect x="70" y="130" width="35" height="6" rx="2" fill="var(--muted)" opacity="0.3"/>
+                        <rect x="70" y="145" width="25" height="6" rx="2" fill="var(--muted)" opacity="0.3"/>
+                        
+                        <!-- Main Content -->
+                        <!-- Chart 1 -->
+                        <rect x="130" y="90" width="100" height="70" rx="5" fill="rgba(255,255,255,0.02)"/>
+                        <polyline points="145,140 160,120 175,130 190,100 205,115 220,95" stroke="var(--accent)" stroke-width="2" fill="none">
+                            <animate attributeName="points" values="145,140 160,120 175,130 190,100 205,115 220,95;145,135 160,125 175,115 190,110 205,105 220,100;145,140 160,120 175,130 190,100 205,115 220,95" dur="3s" repeatCount="indefinite"/>
+                        </polyline>
+                        
+                        <!-- Chart 2 -->
+                        <rect x="240" y="90" width="100" height="70" rx="5" fill="rgba(255,255,255,0.02)"/>
+                        <rect x="255" y="130" width="15" height="20" rx="2" fill="var(--accent-secondary)" opacity="0.7">
+                            <animate attributeName="height" values="20;30;20" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="y" values="130;120;130" dur="2s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="280" y="120" width="15" height="30" rx="2" fill="var(--accent)" opacity="0.7">
+                            <animate attributeName="height" values="30;20;30" dur="2.5s" repeatCount="indefinite"/>
+                            <animate attributeName="y" values="120;130;120" dur="2.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="305" y="125" width="15" height="25" rx="2" fill="var(--accent-secondary)" opacity="0.7">
+                            <animate attributeName="height" values="25;35;25" dur="1.8s" repeatCount="indefinite"/>
+                            <animate attributeName="y" values="125;115;125" dur="1.8s" repeatCount="indefinite"/>
+                        </rect>
+                        
+                        <!-- Stats Cards -->
+                        <rect x="130" y="170" width="65" height="60" rx="5" fill="rgba(6, 214, 160, 0.1)" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+                        <text x="145" y="195" fill="var(--accent)" font-size="12" font-weight="bold">98%</text>
+                        <text x="145" y="215" fill="var(--muted)" font-size="8">Uptime</text>
+                        
+                        <rect x="205" y="170" width="65" height="60" rx="5" fill="rgba(0, 180, 216, 0.1)" stroke="var(--accent-secondary)" stroke-width="1" opacity="0.5"/>
+                        <text x="215" y="195" fill="var(--accent-secondary)" font-size="12" font-weight="bold">2.4k</text>
+                        <text x="215" y="215" fill="var(--muted)" font-size="8">Events</text>
+                        
+                        <rect x="280" y="170" width="60" height="60" rx="5" fill="rgba(255,255,255,0.02)"/>
+                        <circle cx="310" cy="200" r="20" stroke="var(--accent)" stroke-width="3" fill="none" stroke-dasharray="80 100">
+                            <animate attributeName="stroke-dasharray" values="80 100;90 100;80 100" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="303" y="205" fill="var(--accent)" font-size="10" font-weight="bold">80%</text>
+                        
+                        <!-- Floating Data Points -->
+                        <circle cx="350" cy="70" r="4" fill="var(--accent)" class="float-element">
+                            <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="40" cy="180" r="3" fill="var(--accent-secondary)" class="float-element" style="animation-delay: 1s">
+                            <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="mono text-sm text-[var(--accent)] tracking-wider">02 // SKILLS</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-4">Technical Expertise</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Programming Languages -->
+                <div class="glass-card p-8 reveal reveal-delay-1 group hover:border-[var(--accent)] transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Programming Languages</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span>Python</span>
+                                <span class="text-[var(--accent)]">95%</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="95"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span>SQL</span>
+                                <span class="text-[var(--accent)]">90%</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="90"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span>JavaScript</span>
+                                <span class="text-[var(--accent)]">75%</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="75"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Development -->
+                <div class="glass-card p-8 reveal reveal-delay-2 group hover:border-[var(--accent)] transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                            <rect width="18" height="18" x="3" y="3" rx="2"/>
+                            <path d="M7 7h.01M7 12h.01M7 17h.01M12 7h5M12 12h5M12 17h5"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Backend Development</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">Django</span>
+                        <span class="tag">DRF</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">JWT Auth</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">InfluxDB</span>
+                    </div>
+                </div>
+
+                <!-- Industrial IoT -->
+                <div class="glass-card p-8 reveal reveal-delay-3 group hover:border-[var(--accent)] transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Industrial IoT</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">MQTT</span>
+                        <span class="tag">Modbus</span>
+                        <span class="tag">OPC</span>
+                        <span class="tag">Real-Time Monitoring</span>
+                        <span class="tag">OEE</span>
+                        <span class="tag">DataMosaix</span>
+                    </div>
+                </div>
+
+                <!-- CAD & Visualization -->
+                <div class="glass-card p-8 reveal reveal-delay-4 group hover:border-[var(--accent)] transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                            <path d="M12 3L2 12l10 9 10-9-10-9z"/>
+                            <path d="M2 12l10 4 10-4"/>
+                            <path d="M12 21v-9"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">CAD & Visualization</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">Autodesk APS</span>
+                        <span class="tag">SVG</span>
+                        <span class="tag">DWG</span>
+                        <span class="tag">DXF</span>
+                        <span class="tag">SVF</span>
+                        <span class="tag">P&ID</span>
+                    </div>
+                </div>
+
+                <!-- Tools & Platforms -->
+                <div class="glass-card p-8 reveal reveal-delay-5 group hover:border-[var(--accent)] transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Tools & Platforms</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">Docker</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">GitHub</span>
+                        <span class="tag">Grafana</span>
+                        <span class="tag">Node-RED</span>
+                        <span class="tag">Linux</span>
+                    </div>
+                </div>
+
+                <!-- Frontend -->
+                <div class="glass-card p-8 reveal reveal-delay-6 group hover:border-[var(--accent)] transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                            <line x1="3" x2="21" y1="9" y2="9"/>
+                            <line x1="9" x2="9" y1="21" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Frontend & Mobile</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">Flutter</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="mono text-sm text-[var(--accent)] tracking-wider">03 // EXPERIENCE</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-4">Professional Journey</h2>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="timeline-item pb-12 reveal">
+                    <div class="glass-card p-8">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold">Software Engineer</h3>
+                                <p class="text-[var(--accent)]">Sustaintech Experts</p>
+                            </div>
+                            <span class="mono text-sm text-[var(--muted)]">April 2025 - Present</span>
+                        </div>
+                        <ul class="space-y-3 text-[var(--muted)] text-sm">
+                            <li class="flex items-start gap-2">
+                                <span class="text-[var(--accent)] mt-1">→</span>
+                                Design and develop real-time industrial monitoring systems using Django and PostgreSQL
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-[var(--accent)] mt-1">→</span>
+                                Work with MQTT, Modbus RS485/TCP, and OPC for device integration
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-[var(--accent)] mt-1">→</span>
+                                Develop OEE-based industrial applications and analytical dashboards
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-[var(--accent)] mt-1">→</span>
+                                Implement Autodesk APS and CAD visualization for P&ID projects
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="timeline-item reveal reveal-delay-1">
+                    <div class="glass-card p-8">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold">Bachelor of Technology</h3>
+                                <p class="text-[var(--accent)]">Mechanical Engineering</p>
+                            </div>
+                            <span class="mono text-sm text-[var(--muted)]">2020 - 2024</span>
+                        </div>
+                        <p class="text-[var(--muted)]">RVR & JC College of Engineering | Acharya Nagarjuna University</p>
+                        <p class="text-sm text-[var(--muted)] mt-2">CGPA: 7.48</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="mt-20 reveal reveal-delay-2">
+                <h3 class="text-2xl font-semibold text-center mb-8">Certifications</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="glass-card p-4 text-center hover:border-[var(--accent)] transition-colors">
+                        <p class="text-sm">Cognite Data Fusion Fundamentals</p>
+                    </div>
+                    <div class="glass-card p-4 text-center hover:border-[var(--accent)] transition-colors">
+                        <p class="text-sm">Domain Expert Basics</p>
+                    </div>
+                    <div class="glass-card p-4 text-center hover:border-[var(--accent)] transition-colors">
+                        <p class="text-sm">Data Scientist Basics</p>
+                    </div>
+                    <div class="glass-card p-4 text-center hover:border-[var(--accent)] transition-colors">
+                        <p class="text-sm">DataMosaix Workshop - Rockwell</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="mono text-sm text-[var(--accent)] tracking-wider">04 // PROJECTS</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-4">Featured Work</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="glass-card project-card p-8 reveal">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-xl font-semibold">Sungrace Solar Monitoring System</h3>
+                            <p class="text-sm text-[var(--muted)] mt-1">Aug 2025 - Dec 2025 | Team: 5</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                <circle cx="12" cy="12" r="4"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[var(--muted)] text-sm mb-6">
+                        Real-time solar monitoring platform for 50+ sites with Modbus RTU → Gateway → MQTT pipeline, featuring dashboards, analytics, alarms, and multi-inverter integration.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="tag">Django</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">InfluxDB</span>
+                        <span class="tag">MQTT</span>
+                        <span class="tag">Modbus</span>
+                        <span class="tag">Grafana</span>
+                    </div>
+                    <div class="pt-4 border-t border-[var(--glass-border)]">
+                        <p class="text-xs text-[var(--muted)] mono">Architecture: Inverter → Modbus RTU → Gateway → MQTT → InfluxDB ↔ Django APIs</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="glass-card project-card p-8 reveal reveal-delay-1">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-xl font-semibold">Industrial P&ID Visualization Platform</h3>
+                            <p class="text-sm text-[var(--muted)] mt-1">Current Project</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" x2="8" y1="13" y2="13"/>
+                                <line x1="16" x2="8" y1="17" y2="17"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[var(--muted)] text-sm mb-6">
+                        Industrial P&ID visualization and asset control platform using Autodesk APS for DWG-to-SVF/DXF conversion, metadata extraction, and asset hierarchy integration.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="tag">Autodesk APS</span>
+                        <span class="tag">DataMosaix</span>
+                        <span class="tag">SVG</span>
+                        <span class="tag">DWG/DXF</span>
+                        <span class="tag">REST APIs</span>
+                    </div>
+                    <div class="pt-4 border-t border-[var(--glass-border)]">
+                        <p class="text-xs text-[var(--muted)]">Future VFD and actuator control workflows integration</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="glass-card project-card p-8 reveal reveal-delay-2">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-xl font-semibold">Gateway Configuration Platform</h3>
+                            <p class="text-sm text-[var(--muted)] mt-1">Jan 2026 - Mar 2026 | Team: 2</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                <rect width="20" height="14" x="2" y="3" rx="2"/>
+                                <line x1="8" x2="16" y1="21" y2="21"/>
+                                <line x1="12" x2="12" y1="17" y2="21"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[var(--muted)] text-sm mb-6">
+                        Web-based gateway configuration and device management platform for mapping gateways with sites and inverters, managing configurations, and executing real-time MQTT commands.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">Python</span>
+                        <span class="tag">Django</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">MQTT</span>
+                        <span class="tag">Paho MQTT</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="glass-card project-card p-8 reveal reveal-delay-3">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-xl font-semibold">INFOTO - Event Management</h3>
+                            <p class="text-sm text-[var(--muted)] mt-1">Jun 2024 - Dec 2024 | Team: 2</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                                <line x1="16" x2="16" y1="2" y2="6"/>
+                                <line x1="8" x2="8" y1="2" y2="6"/>
+                                <line x1="3" x2="21" y1="10" y2="10"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[var(--muted)] text-sm mb-6">
+                        Web and mobile platform connecting clients with photographers, videographers, and editors for event bookings. Complete backend with Flutter mobile integration.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tag">Django</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">Flutter</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">JWT Auth</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="reveal">
+                    <span class="mono text-sm text-[var(--accent)] tracking-wider">05 // CONTACT</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8">Let's Work Together</h2>
+                    <p class="text-[var(--muted)] mb-8 max-w-md">
+                        Have a project in mind or want to discuss industrial IoT solutions? I'd love to hear from you. Let's build something amazing together.
+                    </p>
+
+                    <div class="space-y-6">
+                        <a href="mailto:shaikrahamath009@gmail.com" class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center group-hover:bg-[var(--accent)]/20 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--muted)]">Email</p>
+                                <p class="font-medium group-hover:text-[var(--accent)] transition-colors">shaikrahamath009@gmail.com</p>
+                            </div>
+                        </a>
+
+                        <a href="tel:7815977596" class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center group-hover:bg-[var(--accent)]/20 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--muted)]">Phone</p>
+                                <p class="font-medium group-hover:text-[var(--accent)] transition-colors">+91 7815977596</p>
+                            </div>
+                        </a>
+
+                        <a href="https://linkedin.com/in/rahamathpasha786" target="_blank" class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center group-hover:bg-[var(--accent)]/20 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                    <rect width="4" height="12" x="2" y="9"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--muted)]">LinkedIn</p>
+                                <p class="font-medium group-hover:text-[var(--accent)] transition-colors">linkedin.com/in/rahamathpasha786</p>
+                            </div>
+                        </a>
+
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--muted)]">Location</p>
+                                <p class="font-medium">Vijayawada, Andhra Pradesh</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="glass-card p-8 reveal reveal-delay-1">
+                    <form id="contactForm" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2">Name</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-input" placeholder="Project discussion">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                            <textarea id="message" name="message" rows="4" class="form-input resize-none" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 border-t border-[var(--glass-border)] relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-[var(--muted)]">2024 Shaik Rahamath Pasha. All rights reserved.</p>
+            <div class="flex items-center gap-6">
+                <a href="mailto:shaikrahamath009@gmail.com" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors text-sm">Email</a>
+                <a href="https://linkedin.com/in/rahamathpasha786" target="_blank" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors text-sm">LinkedIn</a>
+                <a href="tel:7815977596" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors text-sm">Phone</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize particles
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let animationId = null;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles() {
+            particles = [];
+            const numParticles = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+            
+            for (let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, index) => {
+                // Move particle
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+
+                // Mouse interaction
+                const dx = mouseX - particle.x;
+                const dy = mouseY - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 150) {
+                    const force = (150 - distance) / 150;
+                    particle.x -= dx * force * 0.02;
+                    particle.y -= dy * force * 0.02;
+                }
+
+                // Wrap around edges
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
+
+                // Draw particle
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(6, 214, 160, ${particle.opacity})`;
+                ctx.fill();
+
+                // Draw connections
+                particles.slice(index + 1).forEach(otherParticle => {
+                    const dx = particle.x - otherParticle.x;
+                    const dy = particle.y - otherParticle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(otherParticle.x, otherParticle.y);
+                        ctx.strokeStyle = `rgba(6, 214, 160, ${0.15 * (1 - distance / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        // Check reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!prefersReducedMotion) {
+            resizeCanvas();
+            createParticles();
+            animateParticles();
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                createParticles();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+        }
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuLine1 = document.getElementById('menuLine1');
+        const menuLine2 = document.getElementById('menuLine2');
+        const menuLine3 = document.getElementById('menuLine3');
+        let menuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('active');
+            
+            if (menuOpen) {
+                menuLine1.style.transform = 'rotate(45deg) translate(5px, 5px)';
+                menuLine2.style.opacity = '0';
+                menuLine3.style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                menuLine1.style.transform = '';
+                menuLine2.style.opacity = '1';
+                menuLine3.style.transform = '';
+            }
+        });
+
+        // Close mobile menu when clicking links
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuOpen = false;
+                mobileMenu.classList.remove('active');
+                menuLine1.style.transform = '';
+                menuLine2.style.opacity = '1';
+                menuLine3.style.transform = '';
+            });
+        });
+
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Animate skill bars if in skills section
+                    const skillBars = entry.target.querySelectorAll('.skill-progress');
+                    skillBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        bar.style.width = width + '%';
+                    });
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Skill bars initial animation
+        const skillCards = document.querySelectorAll('.glass-card');
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.skill-progress');
+                    bars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        if (width) {
+                            setTimeout(() => {
+                                bar.style.width = width + '%';
+                            }, 300);
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        skillCards.forEach(card => skillObserver.observe(card));
+
+        // Contact form handling
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value || 'Portfolio Contact';
+            const message = document.getElementById('message').value;
+
+            // Create mailto link
+            const mailtoLink = `mailto:shaikrahamath009@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+            
+            window.location.href = mailtoLink;
+            
+            // Show success feedback
+            const btn = contactForm.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Opening Email Client...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                contactForm.reset();
+            }, 2000);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Nav background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 14, 23, 0.9)';
+                nav.style.backdropFilter = 'blur(20px)';
+            } else {
+                nav.style.background = 'transparent';
+                nav.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
