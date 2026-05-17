@@ -1,4 +1,4 @@
-# 🚀 Rahamath Pasha Portfolio
+# 🚀 Shaik Rahamath Pasha Portfolio
 
 ### Industrial IoT • Django • P&ID Visualization • Real-Time Systems
 
